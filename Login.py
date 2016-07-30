@@ -119,8 +119,8 @@ class menu:
         self.times = False
         self.divide = False
 
-
     def equal(self):
+
         self.num1 = self.BoxEntry.get()
         self.BoxEntry.delete(0, END)
         self.EqualButton.destroy()
@@ -128,6 +128,44 @@ class menu:
         self.Equal2Button.grid(row=0, column=5)
 
     def calc(self):
+
+        def back():
+            if self.EqualButton.winfo_exists() == 1:
+                self.EqualButton.destroy()
+                self.BoxEntry.destroy()
+                self.AddButton.destroy()
+                self.BackButton4.destroy()
+                self.MinusButton.destroy()
+                self.TimesButton.destroy()
+                self.DivideButton.destroy()
+                self.ClearButton.destroy()
+
+                self.GameButton = Button(text='Games', bg='blue', command=self.game)
+                self.GameButton.config(height=5, width=10)
+                self.GameButton.grid(row=0)
+
+                self.WebButton = Button(text='Google', bg='blue', command=self.web)
+                self.WebButton.config(height=5, width=10)
+                self.WebButton.grid(row=0, column=1)
+
+                self.NotesButton = Button(text='Notes', bg='orange', command=self.notes)
+                self.NotesButton.config(height=5, width=10)
+                self.NotesButton.grid(row=1)
+
+                self.CalcButton = Button(text='Calculator', bg='orange', command=self.calc)
+                self.CalcButton.config(height=5, width=10)
+                self.CalcButton.grid(row=1, column=1)
+
+                self.VersionLabel = Label(text='Reebo-Menu© V2.3')
+                self.VersionLabel.config()
+                self.VersionLabel.grid(row=2, columnspan=2)
+
+                if self.Equal2Button.winfo_exists() == 1:
+                    self.Equal2Button.destroy()
+
+            else:
+                print("Error press clear")
+
 
         self.GameButton.destroy()
         self.NotesButton.destroy()
@@ -156,6 +194,9 @@ class menu:
         self.ClearButton = Button(text='Clear', width=24, command=self.clear)
         self.ClearButton.grid(row=2, columnspan=4)
 
+        self.BackButton4 = Button(text='Back', bg='black', fg='white', command=back, width=28)
+        self.BackButton4.grid(row=3, columnspan=5)
+
     def equal2(self):
         self.num2 = self.BoxEntry.get()
 
@@ -173,7 +214,6 @@ class menu:
 
         self.BoxEntry.delete(0, END)
         self.BoxEntry.insert("1", num3)
-
 
     def game(self):
         self.GameButton.destroy()
@@ -290,14 +330,19 @@ class menu:
         self.BackButton2.config(width=35)
         self.BackButton2.grid(row=1, columnspan=2)
 
-    def accept(self):
-        self.notes = open('Notes.txt', 'w')
-        self.text = NoteText.get("1.0", END)
-        self.notes.write(text)
-
     def notes(self):
+        self.GameButton.destroy()
+        self.NotesButton.destroy()
+        self.WebButton.destroy()
+        self.CalcButton.destroy()
+        self.VersionLabel.destroy()
 
         def back():
+
+            self.NoteText.destroy()
+            self.BackButton3.destroy()
+            self.AcceptButton.destroy()
+
             self.GameButton = Button(text='Games', bg='blue', command=self.game)
             self.GameButton.config(height=5, width=10)
             self.GameButton.grid(row=0)
@@ -318,11 +363,14 @@ class menu:
             self.VersionLabel.config()
             self.VersionLabel.grid(row=2, columnspan=2)
 
+        self.NoteText = Text()
+        self.NoteText.grid(row=0)
+
+
 
         file =  open('Notes.txt', 'r')
         insert = file.read()
-
-        self.NoteText.insert(insert)
+        self.NoteText.insert("1.0", insert)
 
         self.GameButton.destroy()
         self.NotesButton.destroy()
@@ -331,15 +379,16 @@ class menu:
         self.VersionLabel.destroy()
 
 
-
-        self.NoteText = Text()
-        self.NoteText.grid(row=0)
-
-        self.AcceptButton = Button(text='Accept', command=accept)
+        self.AcceptButton = Button(text='Accept', command=self. accept)
         self.AcceptButton.grid(row=1)
 
-        self.BackButton3 = Button(text='Back')
+        self.BackButton3 = Button(text='Back', command=back)
         self.BackButton3.grid(row=1, column=1)
+
+    def accept(self):
+        self.notes = open('Notes.txt', 'w')
+        text = self.NoteText.get("1.0", END)
+        self.notes.write(text)
 
     def __init__(self, master2):
         self.GameButton = Button(text='Games', bg='blue', command=self.game)
