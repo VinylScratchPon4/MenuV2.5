@@ -2,13 +2,12 @@ from tkinter import *
 from datetime import datetime
 import subprocess
 import webbrowser
+import base64
 
 
 class login:
 
     def __init__(self, master):
-
-
 
         self.NameLabel = Label(text='Name:', bg='#66e0ff', fg='#0033cc')
         self.NameLabel.config(width=8)
@@ -51,7 +50,9 @@ class login:
 
         Remember = self.RememberCheck.getboolean('True')
 
-        if Name == 'NeophytePon4' and Password == 'password' and self.remember is True:
+        decoded = base64.b64decode(b'cGFzc3dvcmQ=')
+
+        if Name == 'NeophytePon4' and Password == decoded.decode('utf-8') and self.remember is True:
             dat1 = open('Data1.dat', 'w')
             dat1.write(Name)
 
@@ -63,7 +64,7 @@ class login:
             root2.iconbitmap(r'favicon.ico')
             root2.mainloop()
 
-        elif Name == 'NeophytePon4' and Password == 'password' and self.remember is False:
+        elif Name == 'NeophytePon4' and Password == Password == decoded.decode('utf-8') and self.remember is False:
             clear = open('Data1.dat', 'w')
 
             print('Logged In!')
