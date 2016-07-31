@@ -5,6 +5,7 @@ import webbrowser
 import base64
 
 
+
 class login:
 
     def __init__(self, master):
@@ -39,9 +40,10 @@ class login:
         self.PasswordEntry.insert(0, '')
 
         dat2 = open('Data1.dat', 'r')
-        Name = 'NeophytePon4'
+        usr = open('usr.dat', 'r')
+        Name = usr.read()
 
-        if 'NeophytePon4' in dat2:
+        if Name in dat2:
             self.NameEntry.insert('1', Name)
 
     def next(self):
@@ -50,9 +52,19 @@ class login:
 
         Remember = self.RememberCheck.getboolean('True')
 
-        decoded = base64.b64decode(b'cGFzc3dvcmQ=')
+        pwd = open('pwd.dat', 'r')
+        fpass = pwd.read()
 
-        if Name == 'NeophytePon4' and Password == decoded.decode('utf-8') and self.remember is True:
+
+
+        decoded = base64.b64decode(fpass)
+
+
+
+        usr = open('usr.dat', 'r')
+        fname = usr.read()
+
+        if Name == fname and Password == decoded.decode('utf-8') and self.remember is True:
             dat1 = open('Data1.dat', 'w')
             dat1.write(Name)
 
@@ -64,7 +76,7 @@ class login:
             root2.iconbitmap(r'favicon.ico')
             root2.mainloop()
 
-        elif Name == 'NeophytePon4' and Password == Password == decoded.decode('utf-8') and self.remember is False:
+        elif Name == fname and Password == decoded.decode('utf-8') and self.remember is False:
             clear = open('Data1.dat', 'w')
 
             print('Logged In!')
@@ -85,14 +97,94 @@ class login:
 
 class menu:
 
+    def init(self):
+        print('Back')
+        if self.EqualButton.winfo_exists():
+            self.EqualButton.destroy()
+        else:
+            self.EqualButton.destroy()
+
+        self.GameButton = Button(text='Games', bg='blue', command=self.game)
+        self.GameButton.config(height=5, width=10)
+        self.GameButton.grid(row=0)
+
+        self.WebButton = Button(text='Google', bg='blue', command=self.web)
+        self.WebButton.config(height=5, width=10)
+        self.WebButton.grid(row=0, column=1)
+
+        self.NotesButton = Button(text='Notes', bg='orange', command=self.notes)
+        self.NotesButton.config(height=5, width=10)
+        self.NotesButton.grid(row=1)
+
+        self.CalcButton = Button(text='Calculator', bg='orange', command=self.calc)
+        self.CalcButton.config(height=5, width=10)
+        self.CalcButton.grid(row=1, column=1)
+
+        self.VersionLabel = Label(text='Reebo-Menu© V2.8')
+        self.VersionLabel.config()
+        self.VersionLabel.grid(row=2, columnspan=2)
+
+    def uninit(self):
+        self.GameButton.destroy()
+        self.CalcButton.destroy()
+        self.NotesButton.destroy()
+        self.WebButton.destroy()
+        self.RegisterButton.destroy()
+        self.VersionLabel.destroy()
+
+    def creds(self):
+        self.uninit()
+
+        self.usrR = open('usr.dat', 'r')
+
+
+        self.NameLabel = Label(text='Name:')
+        self.NameLabel.grid(row=0)
+
+        self.NameEntry = Entry()
+        self.NameEntry.insert('1', self.usrR.read())
+        self.NameEntry.grid(row=0, column=1)
+
+        self.NamecButton = Button(text='Change', command=self.namec)
+        self.NamecButton.grid(row=0, column=2)
+
+        self.PassLabel = Label(text='Password:')
+        self.PassLabel.grid(row=1)
+
+        self.PassEntry = Entry()
+        self.PassEntry.grid(row=1, column=1)
+
+        self.PasscButton = Button(text='Change', command=self.passc)
+        self.PasscButton.grid(row=1, column=2)
+
+
+
+    def namec(self):
+        self.usrW = open('usr.dat', 'w')
+        self.Namec = self.NameEntry.get()
+        self.usrW.write(Namec)
+
+    def passc(self):
+
+        self.passW = open('pwd.dat', 'w')
+        self.Passc = self.PassEntry.get()
+
+        self.EncodedPass = base64.b64encode(bytes(self.Passc, 'utf-8'))
+        self.passW.write(self.EncodedPass.decode('utf-8'))
+        print(self.EncodedPass.decode('utf-8'))
+
+
     def clear(self):
         self.add = False
         self.minus = False
         self.times = False
         self.divide = False
 
+        self.EqualButton.destroy()
+
         self.EqualButton = Button(text='>', command=self.equal)
         self.EqualButton.grid(row=0, column=5)
+
 
         self.BoxEntry.delete(0, END)
 
@@ -125,13 +217,14 @@ class menu:
         self.num1 = self.BoxEntry.get()
         self.BoxEntry.delete(0, END)
         self.EqualButton.destroy()
-        self.Equal2Button = Button(text='=', command=self.equal2)
-        self.Equal2Button.grid(row=0, column=5)
+        self.EqualButton = Button(text='=', command=self.equal2)
+        self.EqualButton.grid(row=0, column=5)
 
     def calc(self):
 
         def back():
-            if self.EqualButton.winfo_exists() == 1:
+            self.EqualButton.destroy()
+            if True:
                 self.EqualButton.destroy()
                 self.BoxEntry.destroy()
                 self.AddButton.destroy()
@@ -140,41 +233,14 @@ class menu:
                 self.TimesButton.destroy()
                 self.DivideButton.destroy()
                 self.ClearButton.destroy()
+                menu.init(self)
 
-                self.GameButton = Button(text='Games', bg='blue', command=self.game)
-                self.GameButton.config(height=5, width=10)
-                self.GameButton.grid(row=0)
-
-                self.WebButton = Button(text='Google', bg='blue', command=self.web)
-                self.WebButton.config(height=5, width=10)
-                self.WebButton.grid(row=0, column=1)
-
-                self.NotesButton = Button(text='Notes', bg='orange', command=self.notes)
-                self.NotesButton.config(height=5, width=10)
-                self.NotesButton.grid(row=1)
-
-                self.CalcButton = Button(text='Calculator', bg='orange', command=self.calc)
-                self.CalcButton.config(height=5, width=10)
-                self.CalcButton.grid(row=1, column=1)
-
-                self.VersionLabel = Label(text='Reebo-Menu© V2.8')
-                self.VersionLabel.config()
-                self.VersionLabel.grid(row=2, columnspan=2)
-
-                print('IGNOTE ERRORS')
-
-                if self.Equal2Button.winfo_exists() == 1:
-                    self.Equal2Button.destroy()
+                print('IGNORE ERRORS')
 
             else:
-                print("Error press clear")
+                print("ERROR")
 
-
-        self.GameButton.destroy()
-        self.NotesButton.destroy()
-        self.WebButton.destroy()
-        self.CalcButton.destroy()
-        self.VersionLabel.destroy()
+        self.uninit()
 
         self.BoxEntry = Entry(width=25)
         self.BoxEntry.grid(row=0, columnspan=5)
@@ -219,11 +285,7 @@ class menu:
         self.BoxEntry.insert("1", num3)
 
     def game(self):
-        self.GameButton.destroy()
-        self.CalcButton.destroy()
-        self.NotesButton.destroy()
-        self.WebButton.destroy()
-        self.VersionLabel.destroy()
+        self.uninit()
 
         def Csgo():
             webbrowser.open('steam://rungameid/730')
@@ -261,25 +323,7 @@ class menu:
             self.SteamButton.destroy()
             self.BackButton1.destroy()
 
-            self.GameButton = Button(text='Games', bg='blue', command=self.game)
-            self.GameButton.config(height=5, width=10)
-            self.GameButton.grid(row=0)
-
-            self.WebButton = Button(text='Google', bg='blue', command=self.web)
-            self.WebButton.config(height=5, width=10)
-            self.WebButton.grid(row=0, column=1)
-
-            self.NotesButton = Button(text='Notes', bg='orange', command=self.notes)
-            self.NotesButton.config(height=5, width=10)
-            self.NotesButton.grid(row=1)
-
-            self.CalcButton = Button(text='Calculator', bg='orange', command=self.calc)
-            self.CalcButton.config(height=5, width=10)
-            self.CalcButton.grid(row=1, column=1)
-
-            self.VersionLabel = Label(text='Reebo-Menu© V2.8')
-            self.VersionLabel.config()
-            self.VersionLabel.grid(row=2, columnspan=2)
+            menu.init(self)
 
         self.BackButton1 = Button(text='Back', bg='black', fg='white', command=Back)
         self.BackButton1.config(width=22)
@@ -291,11 +335,7 @@ class menu:
         webbrowser.open(self.SeatchInput)
 
     def web(self):
-        self.GameButton.destroy()
-        self.NotesButton.destroy()
-        self.WebButton.destroy()
-        self.CalcButton.destroy()
-        self.VersionLabel.destroy()
+        self.uninit()
 
         self.SearchEntry = Entry()
         self.SearchEntry.config(width=30)
@@ -309,25 +349,7 @@ class menu:
             self.SearchButton.destroy()
             self.BackButton2.destroy()
 
-            self.GameButton = Button(text='Games', bg='blue', command=self.game)
-            self.GameButton.config(height=5, width=10)
-            self.GameButton.grid(row=0)
-
-            self.WebButton = Button(text='Google', bg='blue', command=self.web)
-            self.WebButton.config(height=5, width=10)
-            self.WebButton.grid(row=0, column=1)
-
-            self.NotesButton = Button(text='Notes', bg='orange', command=self.notes)
-            self.NotesButton.config(height=5, width=10)
-            self.NotesButton.grid(row=1)
-
-            self.CalcButton = Button(text='Calculator', bg='orange', command=self.calc)
-            self.CalcButton.config(height=5, width=10)
-            self.CalcButton.grid(row=1, column=1)
-
-            self.VersionLabel = Label(text='Reebo-Menu© V2.8')
-            self.VersionLabel.config()
-            self.VersionLabel.grid(row=2, columnspan=2)
+            menu.init(self)
 
         self.BackButton2 = Button(text='Back', bg='black', fg='white', command=Back)
         self.BackButton2.config(width=35)
@@ -346,25 +368,7 @@ class menu:
             self.BackButton3.destroy()
             self.AcceptButton.destroy()
 
-            self.GameButton = Button(text='Games', bg='blue', command=self.game)
-            self.GameButton.config(height=5, width=10)
-            self.GameButton.grid(row=0)
-
-            self.WebButton = Button(text='Google', bg='blue', command=self.web)
-            self.WebButton.config(height=5, width=10)
-            self.WebButton.grid(row=0, column=1)
-
-            self.NotesButton = Button(text='Notes', bg='orange', command=self.notes)
-            self.NotesButton.config(height=5, width=10)
-            self.NotesButton.grid(row=1)
-
-            self.CalcButton = Button(text='Calculator', bg='orange', command=self.calc)
-            self.CalcButton.config(height=5, width=10)
-            self.CalcButton.grid(row=1, column=1)
-
-            self.VersionLabel = Label(text='Reebo-Menu© V2.8')
-            self.VersionLabel.config()
-            self.VersionLabel.grid(row=2, columnspan=2)
+            menu.init(self)
 
         self.NoteText = Text()
         self.NoteText.grid(row=0)
@@ -375,11 +379,7 @@ class menu:
         insert = file.read()
         self.NoteText.insert("1.0", insert)
 
-        self.GameButton.destroy()
-        self.NotesButton.destroy()
-        self.WebButton.destroy()
-        self.CalcButton.destroy()
-        self.VersionLabel.destroy()
+        self.uninit()
 
 
         self.AcceptButton = Button(text='Accept', command=self. accept)
@@ -394,6 +394,7 @@ class menu:
         self.notes.write(text)
 
     def __init__(self, master2):
+
         self.GameButton = Button(text='Games', bg='blue', command=self.game)
         self.GameButton.config(height=5, width=10)
         self.GameButton.grid(row=0)
@@ -410,9 +411,13 @@ class menu:
         self.CalcButton.config(height=5, width=10)
         self.CalcButton.grid(row=1, column=1)
 
+        self.RegisterButton = Button(text='Credentials', bg='purple', command=self.creds)
+        self.RegisterButton.config(height=5, width=10)
+        self.RegisterButton.grid(row=2)
+
         self.VersionLabel = Label(text='Reebo-Menu© V2.8')
         self.VersionLabel.config()
-        self.VersionLabel.grid(row=2, columnspan=2)
+        self.VersionLabel.grid(row=3, columnspan=2)
 
 root = Tk()
 root.configure(background='#0066cc')
