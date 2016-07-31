@@ -1,4 +1,3 @@
-Hello
-Saddo
-is
-gay
+Welcome! Here you can make notes that will be writen to Notes.txt and
+also will always show up here! Just remember to press the 'Accept' button before
+you go!

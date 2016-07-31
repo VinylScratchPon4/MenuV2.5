@@ -157,9 +157,11 @@ class menu:
                 self.CalcButton.config(height=5, width=10)
                 self.CalcButton.grid(row=1, column=1)
 
-                self.VersionLabel = Label(text='Reebo-Menu© V2.3')
+                self.VersionLabel = Label(text='Reebo-Menu© V2.8')
                 self.VersionLabel.config()
                 self.VersionLabel.grid(row=2, columnspan=2)
+
+                print('IGNOTE ERRORS')
 
                 if self.Equal2Button.winfo_exists() == 1:
                     self.Equal2Button.destroy()
@@ -275,7 +277,7 @@ class menu:
             self.CalcButton.config(height=5, width=10)
             self.CalcButton.grid(row=1, column=1)
 
-            self.VersionLabel = Label(text='Reebo-Menu© V2.3')
+            self.VersionLabel = Label(text='Reebo-Menu© V2.8')
             self.VersionLabel.config()
             self.VersionLabel.grid(row=2, columnspan=2)
 
@@ -323,7 +325,7 @@ class menu:
             self.CalcButton.config(height=5, width=10)
             self.CalcButton.grid(row=1, column=1)
 
-            self.VersionLabel = Label(text='Reebo-Menu© V2.3')
+            self.VersionLabel = Label(text='Reebo-Menu© V2.8')
             self.VersionLabel.config()
             self.VersionLabel.grid(row=2, columnspan=2)
 
@@ -360,7 +362,7 @@ class menu:
             self.CalcButton.config(height=5, width=10)
             self.CalcButton.grid(row=1, column=1)
 
-            self.VersionLabel = Label(text='Reebo-Menu© V2.3')
+            self.VersionLabel = Label(text='Reebo-Menu© V2.8')
             self.VersionLabel.config()
             self.VersionLabel.grid(row=2, columnspan=2)
 
@@ -408,7 +410,7 @@ class menu:
         self.CalcButton.config(height=5, width=10)
         self.CalcButton.grid(row=1, column=1)
 
-        self.VersionLabel = Label(text='Reebo-Menu© V2.3')
+        self.VersionLabel = Label(text='Reebo-Menu© V2.8')
         self.VersionLabel.config()
         self.VersionLabel.grid(row=2, columnspan=2)
 
